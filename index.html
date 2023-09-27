@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Language Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #inputBox {
+            margin: 20px auto;
+            padding: 10px;
+        }
+        #result {
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Language Classification</h1>
+    
+    <div id="inputBox">
+        <label for="textInput">Enter a text for language classification:</label><br>
+        <textarea id="textInput" rows="4" cols="50"></textarea><br>
+        <button onclick="classifyLanguage()">Classify Language</button>
+    </div>
+
+    <div id="result">
+        <h2>Language Classification Result:</h2>
+        <p id="classificationResult"></p>
+    </div>
+
+    <script>
+        function classifyLanguage() {
+            const textInput = document.getElementById("textInput").value;
+
+            if (textInput) {
+                // Send the input text to the server for language classification
+                fetch("/classify-language", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ text: textInput })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("classificationResult").textContent = `Language: ${data.language}`;
+                });
+            } else {
+                alert("Please enter text for classification.");
+            }
+        }
+    </script>
+</body>
+</html>
